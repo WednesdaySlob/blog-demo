@@ -18,6 +18,10 @@ public interface TagMapper extends BaseMapper<Tag> {
 
   List<Tag> findTagsByArticleId(Long articleId);
 
+  List<Long> findHotsTagIds(int limit);
+
+  List<Tag> findTagsByTagIds(List<Long> hotTagIds);
+
 //  default List<Tag> findTagsByArticleId(Long articleId) {
 //    LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
 //    wrapper.inSql(Tag::getId,

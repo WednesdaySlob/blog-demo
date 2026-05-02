@@ -1,15 +1,17 @@
 package com.mszlu.blog.service.impl;
 
-import com.mszlu.blog.VO.TagVO;
+import com.mszlu.blog.mbg.domain.vo.TagVO;
 import com.mszlu.blog.mbg.domain.entity.Tag;
 import com.mszlu.blog.mbg.mapper.TagMapper;
 import com.mszlu.blog.service.TagService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /**
  * <p>
@@ -30,6 +32,17 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
   public List<TagVO> findTagsByArticleId(Long id) {
     List<Tag> tags = tagMapper.findTagsByArticleId(id);
     return copyList(tags);
+  }
+
+  @Override
+  public List<TagVO> hot(int limit) {
+    List<Long> hotTagIds =  tagMapper.findHotsTagIds(limit);
+    if (CollectionUtils.isEmpty(hotTagIds)){
+      return Collections.emptyList();
+    }
+    List<Tag> tagList = tagMapper.findTagsByTagIds(hotTagIds);
+
+    return copyList(tagList);
   }
 
   private List<TagVO> copyList(List<Tag> tagList) {

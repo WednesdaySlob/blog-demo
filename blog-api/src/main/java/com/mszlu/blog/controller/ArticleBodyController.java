@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author wx
- * @since 2026-04-22
+ * @since 2026-04-30
  */
 @RestController
-@RequestMapping("/sys-user")
-public class SysUserController {
+@RequestMapping("/article-body")
+public class ArticleBodyController {
 
 }

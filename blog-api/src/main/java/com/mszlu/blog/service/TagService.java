@@ -1,6 +1,6 @@
 package com.mszlu.blog.service;
 
-import com.mszlu.blog.VO.TagVO;
+import com.mszlu.blog.mbg.domain.vo.TagVO;
 import com.mszlu.blog.mbg.domain.entity.Tag;
 import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
@@ -16,4 +16,7 @@ import java.util.List;
 public interface TagService extends IService<Tag> {
 
   List<TagVO> findTagsByArticleId(Long id);
+
+  List<TagVO> hot(int limit);
+
 }

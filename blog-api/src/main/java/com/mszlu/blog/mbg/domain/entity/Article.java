@@ -96,5 +96,5 @@ public class Article implements Serializable {
    */
   @ApiModelProperty("类别id")
   @TableField("category_id")
-  private Integer categoryId;
+  private Long categoryId;
 }

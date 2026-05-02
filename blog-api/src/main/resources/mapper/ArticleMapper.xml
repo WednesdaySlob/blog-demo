@@ -21,4 +21,10 @@
         id, comment_counts, create_date, summary, title, view_counts, weight, author_id, body_id, category_id
     </sql>
 
+  <select id="listArchives" resultType="com.mszlu.blog.mbg.domain.dos.Archives">
+    select year (create_date) as year, month (create_date) as month, count(*) as count
+    from ms_article
+    group by year,month
+  </select>
+
 </mapper>

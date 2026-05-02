@@ -17,7 +17,6 @@ public class Generator {
   public static void main(String[] args) {
     // 基础路径
     String basePath = "D:\\wx\\桌面\\blog\\blog-parent\\blog-api";
-
     FastAutoGenerator.create(
             "jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC",
             "root", "123456")
@@ -48,11 +47,11 @@ public class Generator {
                 .pathInfo(Collections.singletonMap(
                     OutputFile.xml,
                     basePath + "\\src\\main\\resources\\mapper"
-                )) // XML文件输出目录
+                )) // XML文件输出目录SQLQuery
         )
         .strategyConfig(builder ->
-            builder.addInclude("ms_tag") // 设置需要生成的表名
-                .addTablePrefix("ms_", "t_") // 设置过滤表前缀
+            builder.addInclude("ms_comment") // 设置需要生成的表名
+                .addTablePrefix("ms_") // 设置过滤表前缀
                 .entityBuilder() // 实体类配置
                 .enableLombok() // 启用Lombok
                 .logicDeleteColumnName("deleted") // 逻辑删除字段

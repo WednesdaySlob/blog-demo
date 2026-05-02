@@ -26,4 +26,18 @@
     </where>
   </select>
 
+  <select id="findHotsTagIds" resultType="java.lang.Long" parameterType="int">
+    select tag_id from ms_article_tag at group by tag_id order by count(1) desc limit #{size}
+  </select>
+
+  <select id="findTagsByTagIds" resultType="com.mszlu.blog.mbg.domain.entity.Tag" parameterType="list">
+    select
+    <include refid="Base_Column_List"/>
+    from ms_tag
+    id in
+    <foreach collection="tagIds" item="tagId" separator="," open="(" close=")">
+      #{tagId}
+    </foreach>
+  </select>
+
 </mapper>

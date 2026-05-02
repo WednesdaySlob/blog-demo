@@ -1,4 +1,4 @@
-package com.mszlu.blog.VO;
+package com.mszlu.blog.mbg.domain.vo;
 
 import lombok.Data;
 
@@ -12,6 +12,6 @@ public class TagVO {
 
   private String tagName;
 
-  private String avatar;
+//  private String avatar;
 
 }

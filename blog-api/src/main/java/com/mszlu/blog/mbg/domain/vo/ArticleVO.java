@@ -1,4 +1,4 @@
-package com.mszlu.blog.VO;
+package com.mszlu.blog.mbg.domain.vo;
 
 import java.util.List;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class ArticleVO {
 
   private String summary;
 
-  private int commentCounts;
+  private Integer commentCounts;
 
   private int viveCounts;
 
@@ -33,6 +33,7 @@ public class ArticleVO {
 
   private List<TagVO> tags;
 
-  private List<CategoryVO> Categories;
+//  private List<CategoryVO> Categories;
+  private CategoryVO category;
 
 }
