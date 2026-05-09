@@ -1,5 +1,6 @@
 package com.mszlu.blog.service;
 
+import com.mszlu.blog.common.api.CommonResult;
 import com.mszlu.blog.mbg.domain.vo.TagVO;
 import com.mszlu.blog.mbg.domain.entity.Tag;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -18,5 +19,8 @@ public interface TagService extends IService<Tag> {
   List<TagVO> findTagsByArticleId(Long id);
 
   List<TagVO> hot(int limit);
+
+  CommonResult findAll();
+
 
 }

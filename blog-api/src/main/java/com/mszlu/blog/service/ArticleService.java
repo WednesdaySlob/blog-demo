@@ -5,6 +5,7 @@ import com.mszlu.blog.common.api.CommonPage;
 import com.mszlu.blog.common.api.CommonResult;
 import com.mszlu.blog.mbg.domain.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mszlu.blog.mbg.domain.vo.params.ArticleParam;
 import java.util.List;
 
 /**
@@ -27,4 +28,7 @@ public interface ArticleService extends IService<Article> {
 
 
   ArticleVO findArticleById(Long id);
+
+  // 发布
+  CommonResult publish(ArticleParam articleParam);
 }

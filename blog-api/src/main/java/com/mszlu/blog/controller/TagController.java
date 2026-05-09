@@ -32,4 +32,9 @@ public class TagController {
     return CommonResult.success(tagVOList);
   }
 
+  @GetMapping
+  public CommonResult findAll(){
+    return tagService.findAll();
+  }
+
 }

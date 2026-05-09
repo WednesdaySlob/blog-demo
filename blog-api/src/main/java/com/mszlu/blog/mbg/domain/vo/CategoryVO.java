@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class CategoryVO {
 
-  private String id;
+  private Long id;
 
   private String avatar;
 

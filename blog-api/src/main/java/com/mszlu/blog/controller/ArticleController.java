@@ -3,12 +3,14 @@ package com.mszlu.blog.controller;
 import com.mszlu.blog.mbg.domain.vo.ArticleVO;
 import com.mszlu.blog.common.api.CommonPage;
 import com.mszlu.blog.common.api.CommonResult;
+import com.mszlu.blog.mbg.domain.vo.params.ArticleParam;
 import com.mszlu.blog.service.ArticleService;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,6 +58,11 @@ public class ArticleController {
   public CommonResult findArticleById(@PathVariable Long id){
     ArticleVO articleVO = articleService.findArticleById(id);
     return CommonResult.success(articleVO);
+  }
+
+  @PostMapping("publish")
+  public CommonResult publish(@RequestBody ArticleParam articleParam){
+    return articleService.publish(articleParam);
   }
 
 }

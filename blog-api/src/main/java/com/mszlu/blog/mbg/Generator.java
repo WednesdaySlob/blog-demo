@@ -50,7 +50,7 @@ public class Generator {
                 )) // XML文件输出目录SQLQuery
         )
         .strategyConfig(builder ->
-            builder.addInclude("ms_comment") // 设置需要生成的表名
+            builder.addInclude("ms_article_tag") // 设置需要生成的表名
                 .addTablePrefix("ms_") // 设置过滤表前缀
                 .entityBuilder() // 实体类配置
                 .enableLombok() // 启用Lombok

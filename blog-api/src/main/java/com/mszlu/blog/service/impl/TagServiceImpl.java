@@ -1,5 +1,7 @@
 package com.mszlu.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.mszlu.blog.common.api.CommonResult;
 import com.mszlu.blog.mbg.domain.vo.TagVO;
 import com.mszlu.blog.mbg.domain.entity.Tag;
 import com.mszlu.blog.mbg.mapper.TagMapper;
@@ -43,6 +45,13 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     List<Tag> tagList = tagMapper.findTagsByTagIds(hotTagIds);
 
     return copyList(tagList);
+  }
+
+  @Override
+  public CommonResult findAll() {
+//    List<Tag> tags = baseMapper.selectList(new LambdaQueryWrapper<>());
+    List<Tag> tags = this.tagMapper.selectList(new LambdaQueryWrapper<>());
+    return CommonResult.success(copyList(tags));
   }
 
   private List<TagVO> copyList(List<Tag> tagList) {
