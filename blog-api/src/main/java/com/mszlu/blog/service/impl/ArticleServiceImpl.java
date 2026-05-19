@@ -2,6 +2,7 @@ package com.mszlu.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mszlu.blog.common.utils.UserThreadLocal;
 import com.mszlu.blog.mbg.domain.entity.ArticleBody;
@@ -54,12 +55,46 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
   private final ThreadService threadService;
   private final ArticleTagMapper articleTagMapper;
 
+//  @Override
+//  public CommonResult listArticlesPage(CommonPage commonPage) {
+//    // 1. 分页查询 article 数据库表
+//    LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+//    Page<Article> page = new Page<>(commonPage.getPage(), commonPage.getPageSize());
+//    if (commonPage.getCategoryId() != null) {
+//      // and category_id =#{categoryId}
+//      queryWrapper.eq(Article::getCategoryId, commonPage.getCategoryId());
+//    }
+//
+//   List<Long> articleIdList = new ArrayList<>();
+//    if (commonPage.getTagId() != null){
+//      LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+//      articleTagLambdaQueryWrapper.eq(ArticleTag::getTagId,commonPage.getTagId());
+//      List<ArticleTag> articleTags = articleTagMapper.selectList(articleTagLambdaQueryWrapper);
+//      for (ArticleTag articleTag : articleTags) {
+//        articleIdList.add(articleTag.getArticleId());
+//      }
+//      if (!articleIdList.isEmpty()){
+//        queryWrapper.in(Article::getId,articleIdList);
+//      }
+//    }
+//
+//    // 是否置顶进行排序
+//    // order by create_date desc
+//    queryWrapper.orderByDesc(Article::getWeight,Article::getCreateDate);
+//    Page<Article> articlePage = articleMapper.selectPage(page, queryWrapper);
+//    List<Article> records = articlePage.getRecords();
+//    // 能直接返回？ 不能
+//    List<ArticleVO> articleVOList = copyList(records, true, true);
+//    return CommonResult.success(articleVOList);
+////    return copyList(articlePage.getRecords(), true, false, true, false);
+//  }
+
   @Override
-  public List<ArticleVO> listArticlesPage(CommonPage commonPage) {
-    QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
+  public CommonResult listArticlesPage(CommonPage commonPage) {
     Page<Article> page = new Page<>(commonPage.getPage(), commonPage.getPageSize());
-    Page<Article> articlePage = articleMapper.selectPage(page, queryWrapper);
-    return copyList(articlePage.getRecords(), true, false, true,false);
+    IPage<Article> articleIPage = this.articleMapper.listArticle(page,commonPage.getCategoryId(),commonPage.getTagId(),commonPage.getYear(),commonPage.getMonth());
+    List<Article> records = articleIPage.getRecords();
+    return CommonResult.success(copyList(records,true,true));
   }
 
   @Override
@@ -70,11 +105,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         .select(Article::getId, Article::getTitle)
         .last("limit " + limit);
     List<Article> articles = articleMapper.selectList(queryWrapper);
-    return CommonResult.success(copyList(articles, false, false, false,false));
+    return CommonResult.success(copyList(articles, false, false, false, false));
   }
 
   @Override
   public CommonResult listArchives() {
+
     List<Archives> archivesList = articleMapper.listArchives();
     return CommonResult.success(archivesList);
   }
@@ -82,8 +118,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
   @Override
   public ArticleVO findArticleById(Long id) {
     Article articles = articleMapper.selectById(id);
-    threadService.updateViewCount(articleMapper,articles);
-    return copy(articles,true,true,true,true);
+    threadService.updateViewCount(articleMapper, articles);
+    return copy(articles, true, true, true, true);
   }
 
   @Override
@@ -104,7 +140,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     // tags
     List<TagVO> tags = articleParam.getTags();
-    if (tags != null){
+    if (tags != null) {
       for (TagVO tag : tags) {
         ArticleTag articleTag = new ArticleTag();
         articleTag.setArticleId(article.getId());
@@ -126,23 +162,35 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     return CommonResult.success(articleVO);
   }
 
-  private List<ArticleVO> copyList(List<Article> records, boolean isAuthor, boolean isBody,
-      boolean isTags,boolean isCategory) {
-    List<ArticleVO> articleVOList = new ArrayList<>();
-    for (Article article : records) {
-      ArticleVO articleVO = copy(article, isAuthor, isBody, isTags,isCategory);
-      articleVOList.add(articleVO);
+  public List<ArticleVO> copyList(List<Article> records, boolean isTag,boolean isAuthor){
+   List<ArticleVO> articleVOList = new ArrayList<>();
+    for (Article record : records) {
+      articleVOList.add(copy(record,isTag,isAuthor,false,false));
     }
     return articleVOList;
   }
 
-  private ArticleVO copy(Article article, boolean isAuthor, boolean isBody, boolean isTags,boolean isCategory) {
+  private List<ArticleVO> copyList(List<Article> records, boolean isAuthor, boolean isBody,
+      boolean isTags, boolean isCategory) {
+    List<ArticleVO> articleVoList = new ArrayList<>();
+
+    for (Article record : records) {
+      // 将每个 Article 对象转换为 ArticleVo 对象，并添加到列表中
+      articleVoList.add(copy(record, isTags, isAuthor, isBody, isCategory));
+    }
+    return articleVoList;
+  }
+
+
+
+  private ArticleVO copy(Article article, boolean isAuthor, boolean isBody, boolean isTags,
+      boolean isCategory) {
     ArticleVO articleVO = new ArticleVO();
     BeanUtils.copyProperties(article, articleVO);
     articleVO.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
     // 并不是 所有接口 都需要标签 作者信息
 
-    if (isTags){
+    if (isTags) {
       Long articleId = article.getId();
       articleVO.setTags(tagService.findTagsByArticleId(articleId));
     }
@@ -152,11 +200,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
       articleVO.setAuthor(sysUser.getNickname());
     }
 
-    if (isBody){
-      ArticleBodyVO articleBody  = findArticleBody(article.getId());
+    if (isBody) {
+      ArticleBodyVO articleBody = findArticleBody(article.getId());
       articleVO.setBody(articleBody);
     }
-    if (isCategory){
+    if (isCategory) {
       CategoryVO categoryVO = findCategory(article.getCategoryId());
       articleVO.setCategory(categoryVO);
     }
@@ -165,13 +213,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
   }
 
   private CategoryVO findCategory(Long categoryId) {
-    return  categoryService.findCategoryById(categoryId);
+    return categoryService.findCategoryById(categoryId);
 
   }
 
   private ArticleBodyVO findArticleBody(Long articleId) {
     LambdaQueryWrapper<ArticleBody> queryWrapper = new LambdaQueryWrapper<>();
-    queryWrapper.eq(ArticleBody::getArticleId,articleId);
+    queryWrapper.eq(ArticleBody::getArticleId, articleId);
     ArticleBody articleBody = articleBodyMapper.selectOne(queryWrapper);
     ArticleBodyVO articleBodyVO = new ArticleBodyVO();
     articleBodyVO.setContent(articleBody.getContent());

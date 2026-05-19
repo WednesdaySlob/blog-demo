@@ -26,6 +26,7 @@ public class CommonResult {
     return new CommonResult(true, 200, "success", data);
   }
 
+
   public static CommonResult fail(Integer code, String msg) {
     return new CommonResult(false, code, msg, null);
   }

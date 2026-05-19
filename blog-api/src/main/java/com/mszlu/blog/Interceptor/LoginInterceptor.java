@@ -1,8 +1,7 @@
-package com.mszlu.blog.handler;
+package com.mszlu.blog.Interceptor;
 
 import com.alibaba.fastjson2.JSON;
 import com.mszlu.blog.common.api.CommonResult;
-import com.mszlu.blog.common.utils.JWTUtils;
 import com.mszlu.blog.common.utils.UserThreadLocal;
 import com.mszlu.blog.mbg.domain.entity.SysUser;
 import com.mszlu.blog.mbg.domain.vo.ErrorCode;
@@ -14,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 /**
  * 登录拦截器

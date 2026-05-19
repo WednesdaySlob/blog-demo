@@ -17,6 +17,6 @@ public @interface LogAnnotation {
 
   String module() default "";
 
-  String operation() default "";
+  String operator() default "";
 
 }

@@ -10,6 +10,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>blog-api</module>
+    <module>blog-admin</module>
   </modules>
 
   <parent>
@@ -119,15 +120,37 @@
         <version>2.3.33</version>
       </dependency>
 
+
+
       <dependency>
         <groupId>jakarta.servlet</groupId>
         <artifactId>jakarta.servlet-api</artifactId>
         <version>${jakarta.servlet.version}</version>
         <scope>provided</scope>
       </dependency>
-
     </dependencies>
   </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-generator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+    </dependency>
+
+  </dependencies>
 
   <build>
     <plugins>

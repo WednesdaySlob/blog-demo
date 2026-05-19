@@ -1,6 +1,6 @@
 package com.mszlu.blog.config;
 
-import com.mszlu.blog.handler.LoginInterceptor;
+import com.mszlu.blog.Interceptor.LoginInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

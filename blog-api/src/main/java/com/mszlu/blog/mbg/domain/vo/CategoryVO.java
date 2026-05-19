@@ -15,8 +15,7 @@ public class CategoryVO {
 
   private String categoryName;
 
-//  private String description;
-
+  private String description;
 
 
 }

@@ -45,7 +45,7 @@ public class LogAspect {
     LogAnnotation logAnnotation = method.getAnnotation(LogAnnotation.class);
     log.info("=====================log start================================");
     log.info("module:{}",logAnnotation.module());
-    log.info("operation:{}",logAnnotation.operation());
+    log.info("operation:{}",logAnnotation.operator());
 
     //请求的方法名
     String className = joinPoint.getTarget().getClass().getName();

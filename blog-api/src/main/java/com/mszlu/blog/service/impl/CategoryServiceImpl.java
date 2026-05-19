@@ -44,6 +44,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     return CommonResult.success(copyList(categories));
   }
 
+  @Override
+  public CommonResult findAllDetail() {
+    List<Category> categories = categoryMapper.selectList(new LambdaQueryWrapper<>());
+    // 页面交互的对象
+    return CommonResult.success(copyList(categories));
+  }
+
+  @Override
+  public CommonResult categoriesDetailById(Long id) {
+    Category category = categoryMapper.selectById(id);
+    CategoryVO categoryVO = copy(category);
+    return CommonResult.success(categoryVO);
+  }
+
   public List<CategoryVO> copyList(List<Category> categorieList) {
 
     List<CategoryVO> categoryVOlist = new ArrayList<>();

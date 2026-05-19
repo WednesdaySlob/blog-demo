@@ -20,7 +20,8 @@ public interface TagService extends IService<Tag> {
 
   List<TagVO> hot(int limit);
 
-  CommonResult findAll();
+  CommonResult findAllDetail();
 
 
+  CommonResult findDetailById(Long id);
 }

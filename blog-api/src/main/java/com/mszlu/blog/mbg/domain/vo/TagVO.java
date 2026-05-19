@@ -12,6 +12,6 @@ public class TagVO {
 
   private String tagName;
 
-//  private String avatar;
+  private String avatar;
 
 }

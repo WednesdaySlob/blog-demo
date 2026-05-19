@@ -4,6 +4,7 @@ import com.mszlu.blog.common.api.CommonResult;
 import com.mszlu.blog.mbg.domain.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mszlu.blog.mbg.domain.vo.CategoryVO;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * <p>
@@ -19,5 +20,16 @@ public interface CategoryService extends IService<Category> {
 
   CommonResult findAll();
 
+  /**
+   * 查询所有的文章分类
+   * @return
+   */
+  CommonResult findAllDetail();
 
+  /**
+   * 分类文章列表
+   * @param id
+   * @return
+   */
+  CommonResult categoriesDetailById(Long id);
 }

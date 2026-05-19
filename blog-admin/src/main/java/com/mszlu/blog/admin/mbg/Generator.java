@@ -1,4 +1,4 @@
-package com.mszlu.blog.mbg;
+package com.mszlu.blog.admin.mbg;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
@@ -16,7 +16,7 @@ public class Generator {
 
   public static void main(String[] args) {
     // 基础路径
-    String basePath = "D:\\wx\\桌面\\blog\\blog-parent\\blog-api";
+    String basePath = "D:\\wx\\桌面\\blog\\blog-parent\\blog-admin";
     FastAutoGenerator.create(
             "jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC",
             "root", "123456")
@@ -38,8 +38,8 @@ public class Generator {
             })
         )
         .packageConfig(builder ->
-            builder.parent("com.mszlu.blog") // 父包名
-                .entity("entity") // 实体类包名
+            builder.parent("com.mszlu.blog.admin") // 父包名
+                .entity("model") // 实体类包名
                 .service("service") // Service包名
                 .serviceImpl("service.impl") // Service实现类包名
                 .mapper("mapper") // Mapper接口包名
@@ -50,7 +50,7 @@ public class Generator {
                 )) // XML文件输出目录SQLQuery
         )
         .strategyConfig(builder ->
-            builder.addInclude("ms_article_tag") // 设置需要生成的表名
+            builder.addInclude("ms_permission") // 设置需要生成的表名
                 .addTablePrefix("ms_") // 设置过滤表前缀
                 .entityBuilder() // 实体类配置
                 .enableLombok() // 启用Lombok

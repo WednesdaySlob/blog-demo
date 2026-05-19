@@ -3,9 +3,11 @@ package com.mszlu.blog.controller;
 import com.mszlu.blog.mbg.domain.vo.TagVO;
 import com.mszlu.blog.common.api.CommonResult;
 import com.mszlu.blog.service.TagService;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2026-04-22
  */
 @RestController
-@RequestMapping("/tag")
+@RequestMapping("/tags")
 @RequiredArgsConstructor
 public class TagController {
 
@@ -26,15 +28,31 @@ public class TagController {
   private final TagService tagService;
 
   @GetMapping("/hot")
+  @ApiOperation("热门标签")
   public CommonResult listHotTags() {
     int limit = 6;
     List<TagVO> tagVOList = tagService.hot(limit);
     return CommonResult.success(tagVOList);
   }
 
-  @GetMapping
-  public CommonResult findAll(){
-    return tagService.findAll();
+  @GetMapping("detail")
+  @ApiOperation("查询所有的标签")
+  public CommonResult findAllDetail(){
+    return tagService.findAllDetail();
   }
+
+  @GetMapping("detail/{id}")
+  @ApiOperation("根据id 查询 标签文章列表")
+  public CommonResult findAllDetailById(@PathVariable Long id){
+    return tagService.findDetailById(id);
+  }
+
+
+
+
+
+
+
+
 
 }

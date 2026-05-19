@@ -19,11 +19,20 @@ import java.util.List;
 
 public interface ArticleService extends IService<Article> {
 
-  List<ArticleVO> listArticlesPage(CommonPage commonPage);
+  /**
+   * 文章列表分页查询
+   * @param commonPage
+   * @return
+   */
+ CommonResult listArticlesPage(CommonPage commonPage);
 
 
   CommonResult hotArticle(int limit);
 
+  /**
+   * 文章归档
+   * @return
+   */
   CommonResult listArchives();
 
 

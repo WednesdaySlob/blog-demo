@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2026-04-30
  */
 @RestController
-@RequestMapping("/article-body")
+@RequestMapping("/articleBody")
 public class ArticleBodyController {
 
 }
